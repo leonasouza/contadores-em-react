@@ -5,13 +5,19 @@ class Counter extends Component {
     console.log(this.props);
     return (
       <div>
-        <h4>Contador #{this.props.counter.id}</h4>
+        <h4>Counter #{this.props.counter.id}</h4>
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
           onClick={() => this.props.onIncrement(this.props.counter)}
-          className="btn btn-secondary btn-sm"
+          className="btn btn-success btn-sm m-1"
         >
-          Increment
+          +
+        </button>
+        <button
+          onClick={() => this.props.onDecrement(this.props.counter)}
+          className="btn btn-secondary btn-sm m-1"
+        >
+          -
         </button>
         <button
           onClick={() => this.props.onDelete(this.props.counter.id)}

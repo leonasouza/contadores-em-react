@@ -5,20 +5,27 @@ import Counters from "./components/counters";
 
 class App extends Component {
   state = {
-    counters: [
-      { id: 1, value: 5 },
-      { id: 2, value: 0 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 },
-    ],
+    counters: [{ id: 1, value: 0 }],
   };
 
-  handleIncrement = (counter) => {
+  prepareHandle = (condition, counter) => {
     const counters = [...this.state.counters];
     const index = counters.indexOf(counter);
     counters[index] = { ...counter };
-    counters[index].value++;
+    if (condition === "add") {
+      counters[index].value++;
+    } else if (condition === "remove" && counters[index].value > 0) {
+      counters[index].value--;
+    }
     this.setState({ counters });
+  };
+
+  handleIncrement = (counter) => {
+    this.prepareHandle("add", counter);
+  };
+
+  handleDecrement = (counter) => {
+    this.prepareHandle("remove", counter);
   };
 
   handleReset = () => {
@@ -30,8 +37,23 @@ class App extends Component {
   };
 
   handleDelete = (counterId) => {
-    const counters = this.state.counters.filter((c) => c.id !== counterId);
-    this.setState({ counters });
+    if (this.state.counters.length > 1) {
+      const counters = this.state.counters.filter((c) => c.id !== counterId);
+      this.setState({ counters });
+    }
+  };
+
+  handleAdd = () => {
+    let quantity = Math.max.apply(
+      Math,
+      this.state.counters.map((c) => {
+        return c.id + 1;
+      })
+    );
+    console.log(quantity);
+    this.setState({
+      counters: [...this.state.counters, { id: quantity, value: 0 }],
+    });
   };
 
   render() {
@@ -45,7 +67,9 @@ class App extends Component {
             counters={this.state.counters}
             onReset={this.handleReset}
             onIncrement={this.handleIncrement}
+            onDecrement={this.handleDecrement}
             onDelete={this.handleDelete}
+            onAdd={this.handleAdd}
           />
         </main>
       </React.Fragment>
