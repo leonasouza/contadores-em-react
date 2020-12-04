@@ -15,7 +15,7 @@ class Counters extends Component {
     return (
       <div>
         <button onClick={onReset} className="btn btn-primary btn-sm m-2">
-          Reset counters
+          Reset items
         </button>
         <button onClick={onAdd} className="btn btn-primary btn-sm m-2">
           Add counter
